@@ -1,27 +1,20 @@
-version: "3.8"
+version: '3.1'
 
 services:
-  # db-service:
-  #   image: mysql:5.7.22
-  #   container_name: "db-service"
-  #   restart: always
-  #   environment: 
-  #     MYSQL_DATABASE: admin
-  #     MYSQL_USER: root
-  #     MYSQL_PASSWORD: root
-  #     MYSQL_ROOT_PASSWORD: "admin"
-  #   volumes: 
-  #     - ./backend/.dbdata:/var/lib/mysql
-  #     - ./util/init-script.sql:/docker-entrypoint-initdb.d/init-script.sql
-  #   ports: 
-  #     - 33066:3306
-  #   networks: 
-  #     - fullstack 
 
-networks: 
-  fullstack:
-    driver: bridge
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
 
-
-    
-    
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 443:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_URL: mongodb://admin:admin@mongo:27017/
